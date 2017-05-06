@@ -1,0 +1,345 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="PACS.master.cs" Inherits="PACS" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>HR Watch</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+
+      <link rel="Stylesheet" type="text/css" href="<%= ResolveUrl("~/css/pageStyle.css") %>" />
+    <script src='<%= ResolveUrl("~/js/jquery-1.7.js") %>' type="text/javascript"></script>
+     
+ <link rel="Stylesheet" type="text/css" href="<%= ResolveUrl("~/css/dataTable.css") %>" />
+
+   <%-- <link rel="Stylesheet" type="text/css" href="<%= ResolveUrl("~/js/jquery.dataTables.min.css") %>" />--%>
+     <script src='<%= ResolveUrl("~/js/jquery1.10.12.dataTables.min.js") %>' type="text/javascript"></script>
+     <script src='<%= ResolveUrl("~/js/jquery.searchabledropdown-1.0.8.src.js") %>' type="text/javascript"></script>
+     <script src='<%= ResolveUrl("~/js/BlockUI.js") %>' type="text/javascript"></script>
+     <script src='<%= ResolveUrl("~/js/ExportHTML.js") %>' type="text/javascript"></script>
+     <script src='<%= ResolveUrl("~/js/jquery.maskedinput.js") %>' type="text/javascript"></script>
+     <script src='<%= ResolveUrl("~/js/jqModal.js") %>' type="text/javascript"></script>
+    
+   
+    <%--    <script src='<%= ResolveUrl("~/js/jsPDFt.js") %>' type="text/javascript"></script>--%>
+<%--    <script src='<%= ResolveUrl("~/js/menu.js") %>' type="text/javascript"></script>--%>
+   <%-- <script type="text/javascript" src="js/pdfmake.min.js">
+    </script>--%>
+   <%-- <script type="text/javascript" src="js/vfs_fonts.js">	</script>--%>
+    <%--        <link rel="Stylesheet" type="text/css" href="<%= ResolveUrl("~/css/styles.css") %>" />--%>
+    <link rel="Stylesheet" type="text/css" href="<%= ResolveUrl("~/css/stylesForHorizontal.css") %>" />
+    <link rel="Stylesheet" type="text/css" href="<%= ResolveUrl("~/css/demo_page.css") %>" />
+    
+    <link rel="Stylesheet" type="text/css" href="<%= ResolveUrl("~/css/buttons.dataTables.min.css") %>" />
+
+    <link rel="Stylesheet" type="text/css" href="<%= ResolveUrl("~/css/menu.css") %>" />
+      <link rel="Stylesheet" type="text/css" href="<%= ResolveUrl("~/css/jqModal.css") %>" />
+    
+<%--	<link rel="stylesheet" href="Style/chosen.css" />--%>
+          <link rel="Stylesheet" type="text/css" href="<%= ResolveUrl("~/css/chosen3.css") %>" />
+  <%--  <script src='<%= ResolveUrl("~/js/menu.js") %>' type="text/javascript"></script>--%>
+      <script src='<%= ResolveUrl("~/js/script.js") %>' type="text/javascript"></script>
+        
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("body").mouseover(function () {
+                // $("select").searchable();
+               // $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({ allow_single_deselect: true });
+                if ($("span[id$='lblRole']").text().trim() != "Admin") {
+
+                    $("img[src$='Cross2.png']").click(false);
+                    $("img[src$='Cross2.png']").parent().click(false);
+
+                    $("img[src$='Edit.png']").click(false);
+                    $("img[src$='Edit.png']").parent().click(false);
+                    // $("img[src$='Edit.png']").click(function () { return false; });
+                    $("input[value$='Update']").attr("disabled", true);
+
+                    $("input[type$='image']").attr("disabled", true);
+                    $("img[src$='Blacklist.png']").click(false);
+                    $("img[src$='Active.png']").click(false);
+                }
+                if ($("span[id$='lblRole']").text().trim() == "Viewer") {
+                    $("input[value*='Add']").attr("disabled", true);
+                    $("input[value$='Save']").attr("disabled", true);
+                    $("input[value$='Update']").attr("disabled", true);
+                    $("input[id$='btnSavePassword']").attr("disabled", false);
+                    $("img[src$='Cross2.png']").click(false);
+                    $("img[src$='Cross2.png']").parent().click(false);
+                   
+                    $("img[src$='Edit.png']").click(false);
+                    $("img[src$='Edit.png']").parent().click(false);
+                }
+
+            });
+            $("a[id$='btnChangePwd']").click(function (e) {
+                e.preventDefault();
+                $('#divChangePassword').addClass("jqmWindow");
+                //$('#divChangePassword').css("margin-left", "-44%");
+                $('#divChangePassword').css("width", "45%");
+                $('#divChangePassword').css("z-index", "15");
+                $('#divChangePassword').jqm({ modal: true, overlay: 75, trigger: false });
+                $('#divChangePassword').jqmShow();
+                return false;
+            })
+
+        });
+        function CloseModal() {
+          $("#divChangePassword").jqmHide();
+          //  alert("test");
+          // $("#divChangePassword").hide();
+            return false;
+        }
+
+        function savePassword() {
+            var oldPwd = $("input[id$='txtOldPwd']").val().trim();
+            var newPwd = $("input[id$='txtNewPwd']").val().trim();
+            var repeatPwd = $("input[id$='txtRepeatPwd']").val().trim();
+
+            if (oldPwd == "") {
+                alert("Please Enter Old Password");
+                return false;
+            } else if (newPwd == "") {
+                alert("Please Enter New Password");
+                return false;
+            } else if (repeatPwd == "") {
+                alert("Please Enter Repeat New Password");
+                return false;
+            } else if (newPwd != repeatPwd) {
+                alert("Repeat New Password does not match");
+                return false;
+            }
+
+            var validLength = /.{8}/.test(newPwd);
+            var hasCaps = /[A-Z]/.test(newPwd);
+            var hasNums = /\d/.test(newPwd);
+            var hasSpecials = /[~!,@#%&_\$\^\*\?\-]/.test(newPwd);
+
+            var isValid = validLength && hasCaps && hasNums && hasSpecials;
+
+            if (!isValid) {
+                alert("Please Enter Strong Password");
+                return false;
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "../RMS/RMSwebmethods.aspx/UpdatePassword",
+                data: "{'OldPwd':'" + oldPwd + "','NewPwd':'" + newPwd + "','RepeatPwd':'" + repeatPwd + "'}",
+                success: onsuccessChangePwd
+            });
+        }
+
+        function onsuccessChangePwd(msg) {
+            var data = msg.d;
+            if (data == "Old Password is incorrect") {
+                alert(data);
+            }
+            else {
+                CloseModal();
+                alert(data);
+            }
+        }
+        
+    </script>
+
+        <style>
+        .ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding to account for vertical scrollbar */
+    padding-right: 20px;
+}
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {
+    height: 100px;
+}
+            </style>
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+        <div class="top-header">
+            <div>
+                <div class="topline">
+                    <div class="user-info">
+                        <span>
+                            <img class="loginimg" src="../images/login.png" />
+                        </span>
+                        <asp:Label ID="lblUserName" runat="server"></asp:Label>
+                        |
+                <asp:Label ID="lblRole" runat="server"></asp:Label>
+                        |
+                <span class="spn-changePwd">
+                    <asp:LinkButton ForeColor="White" Text="Change Password" ID="btnChangePwd" runat="server"></asp:LinkButton>
+                </span>|
+                <span class="spn-logout">
+                    <asp:LinkButton ForeColor="White" Text="Logout" ID="btnlogout" runat="server" OnClick="btnlogout_Click"></asp:LinkButton>
+                </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="banner">
+            &nbsp;
+        </div>
+
+
+        <%--<div class="top-header">
+            <div class="user-info">
+                <span>Hello:</span>
+                <asp:Label ID="lblUserName" runat="server"></asp:Label>
+                <asp:Label ID="lblRole" runat="server"></asp:Label>
+                <span class="spn-changePwd">
+                    <asp:LinkButton ForeColor="White" Text="Change Password" ID="btnChangePwd" runat="server"></asp:LinkButton>
+                </span>
+                <span class="spn-logout">
+                    <asp:LinkButton ForeColor="White" Text="Logout" ID="btnlogout" runat="server" OnClick="btnlogout_Click"></asp:LinkButton>
+                </span>
+            </div>
+
+        </div>--%>
+        <%--<div class="banner"></div>--%>
+
+        <div id="menu">
+            <ul class="menu">
+                <li><a href="../Home.aspx" class="parent"><span>Home</span></a> </li>
+                  <li>
+                    <a href="#" class="parent"><span>User Management</span></a>
+                    <div>
+                        <ul>
+                                    <li><a href="../UserManagement/AddUser.aspx"><span>Add/Modify User</span></a></li>                                    
+                                    <li style="display:none;"><a href="../UserManagement/Users.aspx"><span>User</span></a></li>
+                                    
+
+                        </ul>
+                    </div>
+                </li>
+                <li id="Setting Forms">
+                    <a href="#" class="parent"><span>Setting Forms</span></a>
+                    <div>
+                        <ul>
+                            <li><a href="../SettingForms/Relation.aspx"><span>Add/ Modify Relation</span></a></li>
+                            <li><a href="../SettingForms/Designation.aspx"><span>Add/ Modify Designation</span></a></li>
+                            <li><a href="../SettingForms/Departments.aspx"><span>Add/ Modify Department</span></a></li>
+                            <li><a href="../SettingForms/Religion.aspx"><span>Add/ Modify Religion</span></a></li>
+                            <li><a href="../SettingForms/Sectt.aspx"><span>Add/ Modify Sectt</span></a></li>
+                            <li><a href="../SettingForms/Caste.aspx"><span>Add/ Modify Caste</span></a></li>
+                            <li><a href="../SettingForms/Education.aspx"><span>Add/ Modify Education</span></a></li>
+                            <li><a href="../SettingForms/Trainer.aspx"><span>Add/ Modify Trainer</span></a></li>
+                             <li><a href="../SettingForms/TrainingCatagory.aspx"><span>Add/ Modify Training Category</span></a></li>
+                            <li><a href="../SettingForms/Training.aspx"><span>Add/ Modify Training</span></a></li>
+                            <li><a href="../SettingForms/TrainingSchedule.aspx"><span>Add/ Modify Training Schedule</span></a></li>
+                            <li><a href="../SettingForms/City.aspx"><span>Add/ Modify City</span></a></li>
+                            <li><a href="../SettingForms/AddCompany.aspx"><span>Add/ Modify Company</span></a></li>
+                            <li><a href="../SettingForms/AddLeaveType.aspx"><span>Add/ Modify Leave</span></a></li>
+                            <li><a href="../SettingForms/AddEmployeeJob_Status.aspx"><span>Add/ Modify Job Status</span></a></li>
+                            <li><a href="../SettingForms/AddReasoning.aspx"><span>Add/ Modify Reasoning</span></a></li>
+                            <li><a href="../SettingForms/AddAssignCharge.aspx"><span>Add/ Modify Assign Charge</span></a></li>
+                            <li><a href="../SettingForms/AddBank.aspx"><span>Add/ Modify Bank</span></a></li>
+                             <li><a href="../SettingForms/AddHolidays.aspx"><span>Add/ Modify Holiday(s)</span></a></li>
+                            
+
+
+                        </ul>
+                        
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="parent"><span>Employee Management System</span></a>
+
+                     <div>
+                        <ul>
+                            <li><a href="../EMS/Employee.aspx"><span>Employee Basic Information</span></a></li>
+                            <li><a href="../EMS/EmployeeHealthInfo.aspx"><span>Employee Health Info</span></a></li>
+                           
+                            
+
+
+                        </ul>
+                        
+                    </div>
+                </li>
+                <li>
+                    <a href="../HMS/Hierarchy.aspx" class="parent"><span>Hierarchy Management System</span></a>
+                </li>
+
+                <li>
+                    <a href="../Reports/TestReport.aspx" class="parent"><span>Test Report</span></a>
+                </li>
+                </ul>
+                
+        </div>
+        <div style="display: none;" id="divChangePassword">
+            <fieldset>
+                <legend>Change Password</legend>
+                <table class="form">
+                    <tr id="trClose">
+                        <td style="text-align: right; border: none">
+                            <div id="close">
+                                <img src='../images/btn_close02.png' style="background: none repeat scroll 0 0 transparent; border: medium none; height: 32px; margin-top: -52px; position: absolute; width: 32px; cursor: pointer; right: 434px; left: 98%;"
+                                    alt="Close" onclick='return CloseModal();' />
+                            </div>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td class="right">Old Password:<span class="reqSpan">*</span></td>
+                        <td>
+                            <input type="password" id="txtOldPwd"  class="req" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">New Password:<span class="reqSpan">*</span></td>
+                        <td>
+                            <input type="password" id="txtNewPwd" class="req" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">Repeat Password:<span class="reqSpan">*</span></td>
+                        <td>
+                            <input type="password" id="txtRepeatPwd" class="req" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <span style="font-size:12px;font-weight:bold;color:maroon">Password must be minimum 8 characters long having atleast one Upper Case letter, one Number and one Special Character</span>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <div class="btn-wrapper" style="padding-top: 20px;" id="divSaveAndClearButtons">
+                <input type="button" id="btnSavePassword" class="btn" value="Save " onclick="savePassword();" />
+            </div>
+        </div>
+
+        <table style="width: 100%;background-color: #e0e2e1;">
+
+            <tr>
+
+                <td class="content" style="vertical-align: top;">
+                    <div id="divMsg"></div>
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </td>
+            </tr>
+        </table>
+        <div class="footer"><span id="Span1">&copy;
+                    <script lang="javascript" type="text/javascript">
+                        var d = new Date(); document.write(d.getFullYear());</script>
+                   <a href="http://www.mechatronix.com.pk/" style="color:white;text-decoration:none;">Mechatronix</a>   . All rights reserved</span></div>
+    <%--<div class="footer" style="height:35px">
+        <span style="color:blue; "></span>
+    </div>--%>
+    </form>
+</body>
+</html>
