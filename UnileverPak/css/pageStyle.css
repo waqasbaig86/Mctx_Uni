@@ -45,7 +45,7 @@ background-repeat: repeat-x;
 
 select,input[type=text],input[type=password] {
     display: block;
-    width: 90%;    
+    width: 95%;    
     padding: 6px 6px;
     font-size: 14px;
     line-height: 1.6;    
@@ -345,4 +345,8 @@ legend
 .success1
 {
     font-size:16px;font-weight:bold;color:green;
+}
+.right-align label{
+    float:right;
+    padding-right:5px;
 }

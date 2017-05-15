@@ -74,7 +74,7 @@ public partial class EMS_Employee : System.Web.UI.Page
         ddlEmployeeReporting.DataValueField = "employee_id";
         ddlEmployeeReporting.DataTextField = "employee_name";
         ddlEmployeeReporting.DataBind();
-        ddlEmployeeReporting.Items.Insert(0, new ListItem("-- Select --", ""));
+        ddlEmployeeReporting.Items.Insert(0, new ListItem("-- Select --", "0"));
         
         DataTable dtShift = ObjCommon.GetShift();
 
@@ -108,6 +108,15 @@ public partial class EMS_Employee : System.Web.UI.Page
         ddlBank.DataBind();
         ddlBank.Items.Insert(0, new ListItem("-- Select --", ""));
 
+
+        DataTable dtEmployer = ObjCommon.GetEmployer();
+
+        ddlEmployer.DataSource = dtEmployer;
+        ddlEmployer.DataValueField = "company_id";
+        ddlEmployer.DataTextField = "company_name";
+        ddlEmployer.DataBind();
+        ddlEmployer.Items.Insert(0, new ListItem("-- Select --", ""));
+
     }
 
     protected string UploadFolderPath = "~/EMS/EmployeePictures/";
@@ -122,9 +131,9 @@ public partial class EMS_Employee : System.Web.UI.Page
         string newFileName = string.Format("{0:x}", i - DateTime.Now.Ticks);
 
 
-        string filename = System.IO.Path.GetFileName(AsyncFileUpload1.FileName);
+        //string filename = System.IO.Path.GetFileName(AsyncFileUpload1.FileName);
 
-        AsyncFileUpload1.SaveAs(Server.MapPath(this.UploadFolderPath) + newFileName + ".jpg");
+        //AsyncFileUpload1.SaveAs(Server.MapPath(this.UploadFolderPath) + newFileName + ".jpg");
 
         HttpCookie ActiveTabs = new HttpCookie("tabs");
         ActiveTabs.Values["url"] = newFileName;

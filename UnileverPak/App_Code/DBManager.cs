@@ -12,6 +12,7 @@ public class DBManager
 {
     SqlDataAdapter _SqlAdapter = new SqlDataAdapter();
     SqlConnection _SqlCon;
+    
     SqlCommand _SqlCommand = new SqlCommand();
     public List<SqlParameter> Parameters = new List<SqlParameter>();
     public DBManager()
@@ -81,12 +82,9 @@ public class DBManager
 
         return result;
     }
-    public DataSet ExecuteDataSet(string procedureName, string strConn)
+    public DataSet ExecuteDataSet(string procedureName, string strConn,string dtName=null)
     {
-
-
         DataSet dataSet = new DataSet();
-
         try
         {
             Openconn(strConn);
@@ -97,11 +95,10 @@ public class DBManager
                 {
                     _SqlCommand.Parameters.Add(Parameters[i]);
                 }
-
             }
             _SqlCommand.CommandType = CommandType.StoredProcedure;
             _SqlAdapter = new SqlDataAdapter(_SqlCommand);
-            _SqlAdapter.Fill(dataSet);
+            _SqlAdapter.Fill(dataSet,dtName);
 
             CloseConnection();
         }
@@ -112,6 +109,7 @@ public class DBManager
         }
         return dataSet;
     }
+    
     public DataTable ExecuteDataTable(string procedureName, string strConn)
     {
 
@@ -180,6 +178,33 @@ public class DBManager
             _SqlCommand.CommandType = CommandType.Text;
             result = _SqlCommand.ExecuteNonQuery();
 
+            CloseConnection();
+        }
+        catch (Exception)
+        {
+            CloseConnection();
+            throw;
+        }
+
+        return result;
+    }
+    public int InsertUpdateProc(string ProcName, string strConn)
+    {
+        int result = 0;
+        try
+        {
+            Openconn(strConn);
+            _SqlCommand = new SqlCommand(ProcName, _SqlCon);
+            if (Parameters.Count != 0)
+            {
+                for (int i = 0; i < Parameters.Count; i++)
+                {
+                    _SqlCommand.Parameters.Add(Parameters[i]);
+                }
+            }
+            
+            _SqlCommand.CommandType = CommandType.StoredProcedure;
+            result = _SqlCommand.ExecuteNonQuery();
             CloseConnection();
         }
         catch (Exception)

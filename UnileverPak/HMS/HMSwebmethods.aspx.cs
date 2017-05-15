@@ -46,46 +46,33 @@ public partial class HMS_Settingwebmethods : System.Web.UI.Page
         return objs;
     }
     #region Hierarchy Mangement
-    #region get hierarchy
+   
     [WebMethod]
-    public static Dictionary<string, object> getHeirarchy(string Employee_ID)
+    public static Dictionary<string, object> getHeirarchy(string EmployeeId,string Type)
     {
-        string Query = " select emp.employee_id,emp.employee_name,desig.designation_id as designationid,isnull(desig.designation_name,'') as designationName,"+
-                       " dep.department_id as departmentid,isnull(dep.department_name,'') as departmentname, "+
-                       " isnull((select  emp2.employee_name from tbl_employee emp2 where emp2.employee_id=emp.employee_reporting_id),'') as reportingPersonName "+
-                       " From tbl_employee emp "+
-                       " left join tbl_designation desig on desig.designation_id=emp.designation_id "+
-                       " left join tbl_department dep on dep.department_id=emp.department_id "+
-
-                       " where emp.employee_reporting_id='" + Employee_ID + "'";
-
-
+       
         DBManager ObjDBManager = new DBManager();
-        DataSet ds = ObjDBManager.SelectQuery(Query, "Heirarchy", "UnileverConnectionString");
+        ObjDBManager.AddParameter("@EmpId", EmployeeId);
+        ObjDBManager.AddParameter("@Type", Type);
+        DataSet ds = ObjDBManager.ExecuteDataSet("GetEmployeeForReportingPerson", "UnileverConnectionString", "Heirarchy");
         DataTable dt = new DataTable();
         dt = ds.Tables["Heirarchy"];
         return ToJson(dt);
     }
-    #endregion
 
-    
-
-    #region Update Hierarchy
     [WebMethod]
-    public static void UpdateHierarchy(string Reporting_Id, string Employee_ID)
+    public static void UpdateHierarchy(string EmployeeId, string ReportingId, string DateFrom, string DateTo, string MainReporting)
     {
-        getUserAndDate();
-        string[] empID = Employee_ID.Split('`');
-        for (int i = 0; i <= empID.Length-1; i++) { 
-
-        string query = "UPDATE [tbl_employee]" +
-    " SET [employee_reporting_id] = '" + Reporting_Id + "'" +
-    "  WHERE [employee_id]='" + empID[i] + "'";
+        //getUserAndDate();        
         DBManager ObjDBManager = new DBManager();
-        ObjDBManager.InsertUpdateQuery(query, "UnileverConnectionString");
-        }
+        ObjDBManager.AddParameter("@EmpId", EmployeeId);
+        ObjDBManager.AddParameter("@ReportingId", ReportingId);
+        ObjDBManager.AddParameter("@DateFrom", DateFrom);
+        ObjDBManager.AddParameter("@DateTo", DateTo);
+        ObjDBManager.AddParameter("@MainReporting", bool.Parse(MainReporting));
+        ObjDBManager.AddParameter("@Modified_by", HttpContext.Current.Profile.GetPropertyValue("UserId"));
+        ObjDBManager.AddParameter("@Modified_date", DateTime.Now);
+        ObjDBManager.InsertUpdateProc("ChangeReportingPerson", "UnileverConnectionString");
     }
-    #endregion
-   
     #endregion
 }

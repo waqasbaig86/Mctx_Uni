@@ -18,7 +18,7 @@ public partial class HMS_Hierarchy : System.Web.UI.Page
         ddlReportingPerson.DataValueField = "employee_id";
         ddlReportingPerson.DataTextField = "employee_name";
         ddlReportingPerson.DataBind();
-        ddlReportingPerson.Items.Insert(0, new ListItem("-- Select --", ""));
+        ddlReportingPerson.Items.Insert(0, new ListItem("-- Select --", "0"));
 
         DataTable dtChangeEmployeeName = ObjCommon.GetEmpl();
 

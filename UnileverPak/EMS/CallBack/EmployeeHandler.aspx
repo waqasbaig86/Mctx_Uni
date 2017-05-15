@@ -7,70 +7,59 @@
             <asp:Repeater ID="rptEmployee" runat="server">
                 <ItemTemplate>
                     <tr>
-                                
-                       
-
-
-                        
+                     
                         <td>
                            
                             <span class="edit-icon" onclick="editEmployees('<%# Eval("id") %>',this)">
                             <img src='../images/Edit.png'/>
+                    </span>
+                             <span class="edit-icon" onclick="addMedicalDetail('<%# Eval("id") %>',this)">
+                            <img src='../images/Edit.png'/>
                     </span> 
-                            </span> </td>
+                           </td>
                         <td style="white-space:nowrap" class="center empNo"><%# Eval("employee_number") %></td>
-                        <td style="white-space:nowrap" class="center Name"><%# Eval("Name") %></td>
-                        <td style="white-space:nowrap" class="fName"><%# Eval("fatherName") %></td> 
-                        <td style="white-space:nowrap" class="Department"><%# Eval("departmentname") %></td>
-                        <td style="white-space:nowrap;display:none" class="Departmentid"><%# Eval("departmentid") %></td>
-                        <td style="white-space:nowrap" class="Designation"><%# Eval("designationname") %></td>
-                        <td style="white-space:nowrap;display:none" class="Designationid"><%# Eval("designationid") %></td>
-                        <td style="white-space:nowrap;" class="Shift"><%# Eval("shiftname") %></td>
-                        <td style="white-space:nowrap;display:none" class="Shiftid"><%# Eval("shiftid") %></td>
+                        <td style="white-space:nowrap" class="center Name"><%# Eval("Name") %></td>                        
+                        <td style="white-space:nowrap" class="Department"><%# Eval("departmentname") %></td>                        
+                        <td style="white-space:nowrap" class="Designation"><%# Eval("designationname") %></td>                        
+                        <td style="white-space:nowrap;" class="Shift"><%# Eval("shiftname") %></td>                        
                         <td style="white-space:nowrap;" class="email"><%# Eval("email") %></td>
-                         <td style="white-space:nowrap;display:nones;" class="phone"><%# Eval("phoneno") %></td>
-                        <td style="white-space:nowrap;display:nones;" class="cellno"><%# Eval("cellno") %></td> 
+                        <td style="white-space:nowrap;" class="phone"><%# Eval("phoneno") %></td>
+                        <td style="white-space:nowrap;" class="cellno"><%# Eval("cellno") %></td>                         
+                        <td style="white-space:nowrap;" class="dob"><%# Eval("dob") %></td>
+                        <td style="white-space:nowrap;" class="Gender"><%# Eval("GenderName") %></td>
+                        <td class="phto">  <img  src='<%# "../EMS/CallBack/GetImageDatafromDB.aspx?PrimaryKeyIDValue=" + System.Convert.ToString(Eval("id") + "&tableName=tbl_employee&ImagecolumnName=photo&PrimaryKeyColumnName=employee_id&date="+DateTime.Now+"") %>' style="height:50px; width:50px"/></td> 
+
                         
-                        <td style="white-space:nowrap ;display:none" class="status"><%# Eval("employeeStatus") %></td>
-                        <td style="white-space:nowrap ;display:none" class="status"><%# Eval("employeeStatus") %></td>
-                        <td style="white-space:nowrap ;display:none" class="status"><%# Eval("employeeStatus") %></td>
-                        <td style="white-space:nowrap ;display:none" class="status"><%# Eval("employeeStatus") %></td>
-                        <td style="white-space:nowrap;display:none" class="dob"><%# Eval("dob") %></td>
-                        <td style="white-space:nowrap;display:nones;" class="Gender"><%# Eval("GenderName") %></td>
-                        <td style="white-space:nowrap;display:none" class="Genderid"><%# Eval("GenderId") %></td> 
-                        <td style="white-space:nowrap;display:none;" class="cnic"><%# Eval("Cnic") %></td>
-                        <td style="white-space:nowrap;display:none;" class="address"><%# Eval("Adress") %></td>
-                        
-                        <%--<td style="white-space:nowrap" class="fullName"><%# Eval("FirstName") %> <%# Eval("LastName") %></td>--%>
-                         <td style="white-space:nowrap;display:none;" class="city"><%# Eval("cityname") %></td>
-                        <td style="white-space:nowrap;display:none" class="cityid"><%# Eval("cityid") %></td>                  
-                        
-                        
-                        <td style="white-space:nowrap;display:none;" class="Religion"><%# Eval("religionname") %></td>
-                        <td style="white-space:nowrap;display:none" class="religionid"><%# Eval("religionid") %></td>
-                        <td style="white-space:nowrap;display:none;" class="Sectt"><%# Eval("secttname") %></td>
-                        <td style="white-space:nowrap;display:none" class="Secttid"><%# Eval("secttid") %></td>
-                        <td style="white-space:nowrap;display:none;" class="Cast"><%# Eval("castname") %></td>
-                        <td style="white-space:nowrap;display:none" class="Castid"><%# Eval("castid") %></td>
-                        <td style="white-space:nowrap;display:none;" class="Bloddgroup"><%# Eval("bloodgroupname") %></td>
-                        <td style="white-space:nowrap;display:none" class="Bloddgroupid"><%# Eval("bloodgroupid") %></td>
-                        <%--<td style="white-space:nowrap;display:none;" class="Education"><%# Eval("educationname") %></td>
-                        <td style="white-space:nowrap;display:none" class="Educationid"><%# Eval("educationid") %></td>--%>
-                        
-                        
-                        <td style="white-space:nowrap;display:none" class="EmployeeReportedid"><%# Eval("employee_reporting_id") %></td>
-                        <td style="white-space:nowrap;display:none;" class="Employee"><%# Eval("Name") %></td>
-                        
-                        
-                        <%--<td style="white-space:nowrap;display:none;" class="rank"><%# Eval("Rank_ID") %></td>
-                        <td style="white-space:nowrap;display:none;" class="refAdd"><%# Eval("CurrAddr") %></td>
-                        <td style="white-space:nowrap;display:none;" class="desgId"><%# Eval("Designation") %></td>
-                        <td style="white-space:nowrap" class="status"><%# Eval("Status") %></td>
-                        <td style="white-space:nowrap;display:none;" class="empID"><%# Eval("EID") %></td>--%>
+                        <td style="white-space:nowrap;display:none">
+                            <span class="Shiftid"><%# Eval("shiftid") %></span>
+                            <span class="Departmentid"><%# Eval("departmentid") %></span>
+                            <span class="fName"><%# Eval("fatherName") %></span>
+                            <span class="status"><%# Eval("employeeStatus") %></span>
+                            <span class="GenderId"><%# Eval("GenderId") %></span>
+                            <span class="cnic"><%# Eval("Cnic") %></span>
+                            <span class="address"><%# Eval("Adress") %></span>
+                            <span class="cityid"><%# Eval("cityid") %></span>
+                            <span class="Designationid"><%# Eval("designationid") %></span>
+
+                            <span class="religionid"><%# Eval("religionid") %></span>
+                            <span class="Secttid"><%# Eval("secttid") %></span>
+                            <span class="Castid"><%# Eval("castid") %></span>
+                            <span class="Bloddgroupid"><%# Eval("bloodgroupid") %></span>
+                            <span class="EmployeeReportedid"><%# Eval("employee_reporting_id") %></span>
+
+                            <span class="education_id"><%# Eval("education_id") %></span>
+                            <span class="Employer_Id"><%# Eval("Employer_Id") %></span>
+
+                            <span class="Account_No"><%# Eval("Account_No") %></span>
+                            <span class="Eobi_No"><%# Eval("Eobi_No") %></span>
+                            <span class="Ntn_no"><%# Eval("Ntn_no") %></span>
+                            <span class="Select_Bank"><%# Eval("Select_Bank") %></span>
+                            <span class="Finance_info_id"><%# Eval("Finance_info_id") %></span>
+                        </td>                                                                                                                                                                                                
                      <%--   <td style="white-space:nowrap;display:none;" class="phto33">
                        <asp:Image ID="Image" runat="server" Width="50px" Height="50px" ImageUrl='<%#"../RMS/VisitorPictures/"+Eval("photo")+".jpg" %>'/>
                         </td> --%>
-                        <td class="phto">  <img  src='<%# "../EMS/CallBack/GetImageDatafromDB.aspx?PrimaryKeyIDValue=" + System.Convert.ToString(Eval("id") + "&tableName=tbl_employee&ImagecolumnName=photo&PrimaryKeyColumnName=employee_id&date="+DateTime.Now+"") %>' height="50px" width="50px"/></td> 
+                        
                         <td><span  onclick="ShowDetails_Modal('<%# Eval("id") %>',this,'1')"><img style="padding-left:10%;" src='../images/Details.png'/></span> </td>                       
                     </tr>
                 </ItemTemplate>
