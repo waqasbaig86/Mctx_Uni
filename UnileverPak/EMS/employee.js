@@ -28,29 +28,21 @@ function readCookie(name) {
 function uploadStarted() {
     $get("imgDisplay").style.display = "none";
 }
-function uploadComplete2(sender, args) {
+//function uploadComplete2(sender, args) {
+//    var name = readCookie("tabs").replace("url=", "");    
+//    var imgDisplay = $get("imgDisplay");
+//    imgDisplay.src = "../images/loader.gif";
+//    imgDisplay.style.cssText = "";
+//    var img = new Image();
+//    img.onload = function () {
+//        imgDisplay.style.cssText = "height:100px;width:100px";
+//        imgDisplay.src = img.src;
+//    };
+//    $("#divdummyClass").removeClass("dummy");
+//    img.src = "<%=ResolveUrl(UploadFolderPath) %>" + args.get_fileName() + ".jpg";// args.get_fileName();
+//    $("input[id$='hdnPictureId']").val(args.get_fileName());
 
-    //var a = $("input[id$='txtimangeName']").val();
-    //alert(a+ "ha ja" )
-
-    var name = readCookie("tabs").replace("url=", "");
-    //alert(name + " Kuch nai bhai");
-    var imgDisplay = $get("imgDisplay");
-    imgDisplay.src = "../images/loader.gif";
-    imgDisplay.style.cssText = "";
-    var img = new Image();
-    img.onload = function () {
-        imgDisplay.style.cssText = "height:100px;width:100px";
-        imgDisplay.src = img.src;
-    };
-
-    $("#divdummyClass").removeClass("dummy");
-
-
-    img.src = "<%=ResolveUrl(UploadFolderPath) %>" + name + ".jpg";// args.get_fileName();
-    $("input[id$='hdnPictureId']").val(name);
-
-}
+//}
 
 //-----------------------------------------End picture-----------------------------------------------------
 function dataTable() {
@@ -61,11 +53,18 @@ function ShowDetails_Modal(EID, elm, flag) {
     editEmployees(EID, elm, flag);
 }
 function CloseModal() {    
-    $("#fieldsetForm").jqmHide();
-    $(".jqmWindow input, select").attr("disabled", false);
+    $("#Personal").jqmHide();
+    $("#Personal input, select").attr("disabled", false);
+    $("#Personal").hide();
+    $("#divEmployeeSearch").show();
+    $('#Personal').removeClass("jqmWindow");
+    $("#divButtons").show();
     return false;
 }
-
+function backEmployeeClick() {
+    $("#Personal").hide();
+    $("#divEmployeeSearch").show();
+}
 function ClearEmployee() {
     $("div[id*='AsyncFileUpload1']").css("width", "400px");
     $("div[id*='AsyncFileUpload1']").css("margin-top", "-34px");
@@ -76,12 +75,13 @@ function ClearEmployee() {
     $("#dummy").addClass("dummy");
     $("#Personal input[type=text]").val("");
     $("#Personal select").val("");
-
     $("[id$='txtEmpID']").val("");
 
 }
 function addNewEmployee() {
     $("#Personal").show();
+    $("#divEmployeeSearch").hide();
+
     $('#fieldsetForm').css("margin-left", "0%");
     $('#fieldsetForm').css("width", "97%");
     $('#trClose').hide();
@@ -99,9 +99,7 @@ function addNewEmployee() {
     $("input[id$='hdnPictureId']").val("");
     $("img[id$='imgDisplay']").hide();
     $("#divdummyClass").addClass("dummy");
-    $("#fieldsetForm").show();
-    $("#fieldsetGrd").hide();
-
+    
     $("#tblEmployee input[type=text]").val("");
     $("input[id$='hdnPictureId']").val("")
     $("#tblEmployee select").val("");
@@ -332,18 +330,19 @@ function saveEmployee(flag) {
             + "'Gender':'" + $.trim($("[id$='ddlGender']").val()) + "',"
             + "'EmployeeCity':'" + $.trim($("[id$='ddlcity']").val()) + "',"
             + "'Employee_Dob':'" + $.trim($("[id$='txtEmployeeDob']").val()) + "',"
-            + "'Employee_Status':'" + $.trim($("[id$='txtEmployeeStatus']").val()) + "',"
+            + "'Employee_Status':'" + $.trim($("[id$='ddlJobStatus']").val()) + "',"
             + "'Religion':'" + $.trim($("[id$='ddlReligionid']").val()) + "',"
             + "'Sectt':'" + $.trim($("[id$='ddlSectt']").val()) + "',"
             + "'Caste':'" + $.trim($("[id$='ddlCaste']").val()) + "',"
-            + "'BloddGroup':'" + $.trim($("[id$='ddlBloodGroup']").val()) + "',"            
+            + "'BloddGroup':'" + $.trim($("[id$='ddlBloodGroup']").val()) + "',"
             + "'EmployeeReporting':'" + $.trim($("[id$='ddlEmployeeReporting']").val()) + "',"
             + "'Department':'" + $.trim($("[id$='ddlDepartment']").val()) + "',"
-            + "'Designation':'" + $.trim($("[id$='ddlDesignation']").val()) + "',"            
+            + "'Designation':'" + $.trim($("[id$='ddlDesignation']").val()) + "',"
             + "'Shift':'" + $.trim($("[id$='ddlShift']").val()) + "',"
             + "'Photo':'" + $.trim($("[id$='hdnPictureId']").val()) + "',"
-            + "'Quailification':'" + $.trim($("[id$='ddlQualification']").val()) + "',"
-            + "'Employer':'" + $.trim($("[id$='ddlEmployer']").val()) + "',"            
+            + "'Quailification':'" + $.trim($("[id$='ddlQualification']").val()) + "',"            
+            + "'Employer':'" + $.trim($("[id$='ddlEmployer']").val()) + "',"
+            + "'EmployeCategory':'" + $.trim($("[id$='ddlEmployeeCategory']").val()) + "',"
               + "'AccountNo':'" + $.trim($("[id$='txtAccountNo']").val()) + "',"
               + "'NtnNo':'" + $.trim($("[id$='txtNtnNo']").val()) + "',"
               + "'EobiNo':'" + $.trim($("[id$='txtEobiNo']").val()) + "',"
@@ -358,11 +357,7 @@ function saveEmployee(flag) {
         url: "EmsWebMethods.aspx/SaveEmployee",
         data: EmpData,
         success: function() {
-            
-            $("#divSuccessMsg").show();
-            $("#divSuccessMsg").html("");
-            $("#divSuccessMsg").html("Record Successfully Saved!");
-            $("#divSuccessMsg").fadeOut(6000);
+            showSuccessMsg("Information saved successfully!");
             ClearEmployee();
             if(employeeId!="0")
             {
@@ -381,9 +376,10 @@ function onretrieveSaveEmployeeError(err) {
     alert(err.responseText);
 }
 function getEmployee() {
-    $("div[id*='addemployee']").hide();
-    $("#fieldsetGrd").show();
-    $("#fieldsetForm").hide();
+    $("div[id*='addemployee']").hide();    
+    $("#Personal").hide();
+    $("#divEmployeeSearch").show()
+
     $("#tbodyEmployee").html("");
     $.post("../EMS/CallBack/EmployeeHandler.aspx", { Name: $("#txtNameSearch").val() }).done(function (data) {
         var response = data;
@@ -398,31 +394,34 @@ function getEmployee() {
 
 }
 function editEmployees(eid, elm, flag) {
-
-    if (flag == '1') {
-        //alert("testdjdjjdjd")
-        $('#fieldsetForm').addClass("jqmWindow");
+    if (flag == '1') {        
+        $('#Personal').addClass("jqmWindow");
         $(".jqmWindow input, select").attr("disabled", true);
         $("img[src$='Calendar.gif']").hide();
-        $('#fieldsetForm').css("margin-left", "-44%");
-        $('#fieldsetForm').css("width", "86%");
+        $('#Personal').css("margin-left", "-44%");
+        $('#Personal').css("width", "86%");
         $('#trClose').show();
         $("img[src$='btn_close02.png']").show();
-        $("input[id$='btnSaveEmployee']").hide();
+        //$("input[id$='btnSaveEmployee']").hide();
         $("div[id*='AsyncFileUpload1']").hide();
-        $('#fieldsetForm').jqm({ modal: true, overlay: 75, trigger: false });
-        $('#fieldsetForm').jqmShow();
+        $('#Personal').jqm({ modal: true, overlay: 75, trigger: false });
+        $('#Personal').jqmShow();
+        $('#Personal').css("top", "0");
+        $("#divButtons").hide();
     }
     else {
-        $('#fieldsetForm').css("margin-left", "0%");
-        $('#fieldsetForm').css("width", "97%");
+       
+        $('#Personal').css("margin-left", "0%");
+        $('#Personal').css("width", "97%");
         $('#trClose').hide();
         $("img[src$='btn_close02.png']").hide();        
         $("div[id*='AsyncFileUpload1']").show();
         $(".jqmWindow input, select").attr("disabled", false);
         $("img[src$='Calendar.gif']").show();
-        $('#fieldsetForm').removeClass("jqmWindow");
+        //$('#fieldsetForm').removeClass("jqmWindow");
+        $("#divButtons").show();
     }
+
     $("div[id*='AsyncFileUpload1']").css("width", "400px");
     $("input[id*='AsyncFileUpload1']").val("");
     $("div[id*='AsyncFileUpload1']").css("margin-top", "-34px");
@@ -433,10 +432,10 @@ function editEmployees(eid, elm, flag) {
 
     $("[id$='txtEmpID']").val("");
 
-    $("#fieldsetForm input[type=text]").val("");
-    $("#fieldsetForm select").val("");
+    $("#Personal input[type=text]").val("");
+    $("#Personal select").val("");
     $("[id$='txtId']").val("0");
-    $("#fieldsetForm").show();
+    //$("#fieldsetForm").show();
 
     $("[id$='txtId']").val(eid);
     $("[id$='txtEmployeeNo']").val($.trim($(elm).closest("tr").find(".empNo").html()));
@@ -446,7 +445,7 @@ function editEmployees(eid, elm, flag) {
     $("[id$='txtPhoneNo']").val($.trim($(elm).closest("tr").find(".phone").html()));
     $("[id$='txtCnic']").val($.trim($(elm).closest("tr").find(".cnic").html()));
     $("[id$='txtMobileNo']").val($.trim($(elm).closest("tr").find(".cellno").html()));
-    $("[id$='txtEmployeeStatus']").val($.trim($(elm).closest("tr").find(".status").html()));
+    $("[id$='ddlJobStatus']").val($.trim($(elm).closest("tr").find(".status").html()));
     $("[id$='txtPhone']").val($.trim($(elm).closest("tr").find(".phone").html()));
     $("[id$='txtEmail']").val($.trim($(elm).closest("tr").find(".email").html()));
     $("[id$='ddlcity']").val($.trim($(elm).closest("tr").find(".cityid").html()));
@@ -467,16 +466,16 @@ function editEmployees(eid, elm, flag) {
     $("[id$='ddlEmployer']").val($.trim($(elm).closest("tr").find(".Employer_Id").html()));
     $("[id$='ddlGender']").val($.trim($(elm).closest("tr").find(".GenderId").html()));
     $("[id$='ddlReligionid']").val($.trim($(elm).closest("tr").find(".religionid").html()));
+    $("[id$='ddlEmployeeCategory']").val($.trim($(elm).closest("tr").find(".Emp_Category").html()));
 
     $("[id$='txtEmpFinId']").val($.trim($(elm).closest("tr").find(".Finance_info_id").html()));
     $("[id$='txtAccountNo']").val($.trim($(elm).closest("tr").find(".Account_No").html()));
     $("[id$='txtEobiNo']").val($.trim($(elm).closest("tr").find(".Eobi_No").html()));
     $("[id$='txtNtnNo']").val($.trim($(elm).closest("tr").find(".Ntn_no").html()));
     $("[id$='ddlBank']").val($.trim($(elm).closest("tr").find(".Select_Bank").html()));
-
+    
 
     var str = $(elm).closest("tr").find(".phto img").attr("src");
-
     var last = str.substring(str.lastIndexOf("/") + 1, str.length);
 
     if (last.split('.')[0] != "") {
@@ -489,7 +488,6 @@ function editEmployees(eid, elm, flag) {
         $("#imgDisplay").hide();
         $("#divdummyClass").addClass("dummy");
     }
-
     $("#Personal").show();
     $("#divEmployeeSearch").hide();
 }

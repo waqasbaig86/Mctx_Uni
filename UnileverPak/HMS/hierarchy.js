@@ -48,7 +48,7 @@ function getHierarchy() {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "HMSwebmethods.aspx/getHeirarchy",
-        data: "{'EmployeeId':'" + $("select[id$='ddlReportingPerson']").val() + "','Type':'" + type + "'}",
+        data: "{'EmployeeId':'" + $("select[id$='ddlReportingPerson']").val() + "','Type':'" + type + "','DeptId':'" + $("select[id$='ddlDepartment']").val() + "','shiftId':'" + $("select[id$='ddlShifts']").val() + "'}",
         success: onsuccessgetHierarchy
     });
     return false;
@@ -64,7 +64,7 @@ function onsuccessgetHierarchy(msg) {
     tbl += "<thead>";
     tbl += "<tr>";
     tbl += "<th style='text-align:left; white-space:nowrap;'>Select</th>";
-    tbl += "<th style='white-space:nowrap; text-align:left;'>Employee Name</th>";
+    tbl += "<th style='white-space:nowrap; text-align:left;'>Reported Person</th>";
     tbl += "<th style='white-space:nowrap; text-align:left;'>Employee No</th>";
     tbl += "<th style='white-space:nowrap; text-align:left;'>Designation Name</th>";
     tbl += "<th style='white-space:nowrap; text-align:left;'>Department Name</th>";
@@ -110,21 +110,22 @@ function updateReportingPerson() {
     }
 }
 function onsuccessUpdateHeirarchy() {
-    showSuccessMsg("Record Updated successfully!");
+    showSuccessMsg("Information saved successfully!");
     $("select[id$='ddlChangeReportingPerson']").val("");
     getHierarchy();
     return false;
 }
 
 function AssignedPerson() {
-    $("#lblAssignedPerson").show();
-    $("#ddlReporting").show();
+    $("#trReporting").show();
+    $("#trUnAssignReporting1").hide();
+    $("#trUnAssignReporting2").hide();
     $("#tblHierarchyDetails").html("");
 }
 function UnassignPerson() {
-
-    $("#lblAssignedPerson").hide();
-    $("#ddlReporting").hide();
+    $("#trReporting").hide();
+    $("#trUnAssignReporting1").show();
+    $("#trUnAssignReporting2").show();
     $("#tblHierarchyDetails").html("");
 
 }

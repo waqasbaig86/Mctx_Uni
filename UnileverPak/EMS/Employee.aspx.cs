@@ -117,6 +117,14 @@ public partial class EMS_Employee : System.Web.UI.Page
         ddlEmployer.DataBind();
         ddlEmployer.Items.Insert(0, new ListItem("-- Select --", ""));
 
+        DataTable dtJobStatus = ObjCommon.GetJobStatus();
+
+        ddlJobStatus.DataSource = dtJobStatus;
+        ddlJobStatus.DataValueField = "EmployeeStatus_Id";
+        ddlJobStatus.DataTextField = "Employee_Job_status";
+        ddlJobStatus.DataBind();
+        ddlJobStatus.Items.Insert(0, new ListItem("-- Select --", ""));
+
     }
 
     protected string UploadFolderPath = "~/EMS/EmployeePictures/";
@@ -127,7 +135,7 @@ public partial class EMS_Employee : System.Web.UI.Page
         foreach (byte b in Guid.NewGuid().ToByteArray())
         {
             i *= ((int)b + 1);
-        }
+        } 
         string newFileName = string.Format("{0:x}", i - DateTime.Now.Ticks);
 
 

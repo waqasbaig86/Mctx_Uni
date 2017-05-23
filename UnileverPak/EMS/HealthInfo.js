@@ -4,6 +4,7 @@
     var healthInfo = "{"
     + "'HealthId':'" + empId + "',"
     + "'EmpId':'" + empId + "',"
+    + "'DOA':'" + $.trim($("[id$='TxtDoa']").val()) + "',"
     + "'FHHTN':'" + $.trim($("[id$='TxtHtn']").val()) + "',"
     + "'FHIHD':'" + $.trim($("[id$='TxtIhd']").val()) + "',"
     + "'FHDM':'" + $.trim($("[id$='TxtDm']").val()) + "',"
@@ -26,7 +27,8 @@
     + "'Height':'" + $.trim($("[id$='TxtHeight']").val()) + "',"
     + "'BMI':'" + $.trim($("[id$='TxtBmi']").val()) + "',"
     + "'Waist':'" + $.trim($("[id$='TxtWasit']").val()) + "',"
-    + "'BP':'" + $.trim($("[id$='TxtBp']").val()) + "',"
+    + "'BPDiastolic':'" + $.trim($("[id$='TxtBpDiastolic']").val()) + "',"
+    + "'BPSystolic':'" + $.trim($("[id$='TxtBpSystolic']").val()) + "',"
     + "'Pulse':'" + $.trim($("[id$='TxtPulse']").val()) + "',"
     + "'OralCavity':'" + $.trim($("[id$='TxtOral']").val()) + "',"
     + "'Thyroid':'" + $.trim($("[id$='TxtThyroid']").val()) + "',"
@@ -76,10 +78,7 @@
         url: "EmsWebMethods.aspx/SaveHealthInfo",
         data: healthInfo
     }).done(function (error) {
-        $("#divSuccessMsg").show();
-        $("#divSuccessMsg").html("");
-        $("#divSuccessMsg").html("Record Successfully Saved!");
-        $("#divSuccessMsg").fadeOut(6000);
+        showSuccessMsg("Information saved successfully!");
     }).fail(function() {
         alert(error.responseText);
     });

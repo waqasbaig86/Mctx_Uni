@@ -103,7 +103,7 @@ function changeShift() {
     });
 }
 function onsuccessChangeShift() {
-    showSuccessMsg("Record Updated successfully!");
+    showSuccessMsg("Information saved successfully!");
     getEmployees();
     return false;
 }

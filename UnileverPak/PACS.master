@@ -260,8 +260,9 @@
 
                      <div>
                         <ul>
-                            <li><a href="../EMS/Employee.aspx"><span>Employee Basic Information</span></a></li>
-                            <li><a href="../EMS/health-care-history.aspx"><span>Employee Health Info</span></a></li>
+                            <li><a href="../EMS/Employee.aspx"><span>Employee Information</span></a></li>
+                            <li><a href="../EMS/health-care-history.aspx"><span>Health Information</span></a></li>
+                            <li><a href="../EMS/ShiftManagement.aspx"><span>Shift Management</span></a></li>
                            
                             
 

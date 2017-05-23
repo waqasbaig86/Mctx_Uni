@@ -19,7 +19,8 @@ public partial class HMS_ShiftManagement : System.Web.UI.Page
         ddlDepartment.DataSource = dtdepartment;
         ddlDepartment.DataValueField = "department_id";
         ddlDepartment.DataTextField = "department_name";
-        ddlDepartment.DataBind();        
+        ddlDepartment.DataBind();
+        ddlDepartment.Items.Insert(0, new ListItem("Select", "0"));
 
         DataTable dtShift = ObjCommon.GetShift();
 
@@ -27,7 +28,7 @@ public partial class HMS_ShiftManagement : System.Web.UI.Page
         ddlShifts.DataValueField = "shift_id";
         ddlShifts.DataTextField = "shift_name";
         ddlShifts.DataBind();
-        
+        ddlShifts.Items.Insert(0, new ListItem("Select", "0"));
 
         ddlChangeShift.DataSource = dtShift;
         ddlChangeShift.DataValueField = "shift_id";

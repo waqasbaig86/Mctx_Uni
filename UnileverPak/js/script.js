@@ -1,3 +1,4 @@
+var _currentDate = "";
 
 //$( document ).ready(function() {
 //$('#cssmenu li.has-sub>a').on('click', function(){
@@ -101,8 +102,7 @@ function showSuccessMsg(msg) {
     $("#divMsg").html(msg).addClass("success").removeClass("error").show().fadeOut(4000);
 }
 
-$(document).ready(function () {
-   
+$(document).ready(function () {    
     $(".phone").mask("(999) 999-9999");
     $(".time").mask("99:99", { placeholder: "hh:mm" });//.mask('hh:mm');
     $(".cell").mask("(9999) 999-9999");
@@ -222,5 +222,15 @@ function getQueryStringValue() {
     }
     return vars;
 }
+function calculateCurrentDate() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;//January is 0!`
 
+    var yyyy = today.getFullYear();
+    if (dd < 10) { dd = '0' + dd }
+    if (mm < 10) { mm = '0' + mm }
+    _currentDate = dd + '/' + mm + '/' + yyyy;
+    return _currentDate;
+}
 

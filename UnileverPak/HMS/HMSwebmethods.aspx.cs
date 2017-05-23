@@ -48,12 +48,14 @@ public partial class HMS_Settingwebmethods : System.Web.UI.Page
     #region Hierarchy Mangement
    
     [WebMethod]
-    public static Dictionary<string, object> getHeirarchy(string EmployeeId,string Type)
+    public static Dictionary<string, object> getHeirarchy(string EmployeeId,string Type,string DeptId, string shiftId)
     {
        
         DBManager ObjDBManager = new DBManager();
         ObjDBManager.AddParameter("@EmpId", EmployeeId);
         ObjDBManager.AddParameter("@Type", Type);
+        ObjDBManager.AddParameter("@DeptId", DeptId);
+        ObjDBManager.AddParameter("@shiftId", shiftId);
         DataSet ds = ObjDBManager.ExecuteDataSet("GetEmployeeForReportingPerson", "UnileverConnectionString", "Heirarchy");
         DataTable dt = new DataTable();
         dt = ds.Tables["Heirarchy"];

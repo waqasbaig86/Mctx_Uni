@@ -57,6 +57,12 @@ public class Common
 
         return ObjDBManager.ExecuteDataTable("GetEmployer", "UnileverConnectionString");
     }
+    public DataTable GetJobStatus()
+    {
+        DBManager ObjDBManager = new DBManager();
+
+        return ObjDBManager.ExecuteDataTable("GetJobStatus", "UnileverConnectionString");
+    }
     public DataTable GetBloodGroup()
     {
         DBManager ObjDBManager = new DBManager();

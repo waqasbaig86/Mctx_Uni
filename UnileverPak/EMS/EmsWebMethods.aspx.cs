@@ -55,7 +55,7 @@ public partial class EMS_EmsWebMethods : System.Web.UI.Page
         string Employee_Status, string Religion, string Sectt, 
         string Caste, string BloddGroup, string EmployeeReporting, 
         string Department, string Designation,string Shift, 
-        string Photo, string Quailification,string Employer,     
+        string Photo, string Quailification,string EmployeCategory, string Employer,     
         string AccountNo, string NtnNo, string EobiNo, string Bank
             )
     {
@@ -95,8 +95,9 @@ public partial class EMS_EmsWebMethods : System.Web.UI.Page
         objbmanger.AddParameter("@EmployeeReporting", EmployeeReporting);
         objbmanger.AddParameter("@EmployeeDepartment", Department);
         objbmanger.AddParameter("@EmployeeDesignation", Designation);
-        objbmanger.AddParameter("@EmployeeShift", Shift);
+        objbmanger.AddParameter("@EmployeeShift", Shift);        
         objbmanger.AddParameter("@Employer_Id", Employer);
+        objbmanger.AddParameter("@EmployeCategory", EmployeCategory);
         //  objbmanger.AddParameter("@NewPhoto", Photo);
         //objbmanger.AddParameter("@created_by", HttpContext.Current.Profile.GetPropertyValue("UserId"));
         //objbmanger.AddParameter("@created_date", DateTime.Now);        
@@ -246,13 +247,13 @@ public partial class EMS_EmsWebMethods : System.Web.UI.Page
 
     [WebMethod]
     public static void SaveHealthInfo(string HealthId,
-        string EmpId,string FHHTN, string FHIHD, string FHDM,
+        string EmpId,string DOA, string FHHTN, string FHIHD, string FHDM,
         string FHAsthma, string FHOther, string Surgicalhistory,
         string CDHTN, string CDIHD, string CDDM,
         string CDAsthma, string CDOther, string Smoking,
         string SubstanceAbuse, string Exercise, string Stress,
         string Build, string Weight, string Height,
-        string BMI, string Waist, string BP,
+        string BMI, string Waist, string BPDiastolic, string BPSystolic,
         string Pulse, string OralCavity, string Thyroid,
         string Skin, string Vision, string SpecificDeformity,
         string GIT, string CVS, string Respiratory,
@@ -270,6 +271,7 @@ public partial class EMS_EmsWebMethods : System.Web.UI.Page
         DBManager ObjDBManager = new DBManager();
         ObjDBManager.AddParameter("@HealthId", HealthId);
         ObjDBManager.AddParameter("@EmpId", EmpId);
+        ObjDBManager.AddParameter("@DOA", DOA);
         ObjDBManager.AddParameter("@FHHTN", FHHTN);
         ObjDBManager.AddParameter("@FHIHD", FHIHD);
         ObjDBManager.AddParameter("@FHDM", FHDM);
@@ -291,7 +293,8 @@ public partial class EMS_EmsWebMethods : System.Web.UI.Page
         ObjDBManager.AddParameter("@Height", Height == "" ? "0" : Height);
         ObjDBManager.AddParameter("@BMI", BMI == "" ? "0" : BMI);
         ObjDBManager.AddParameter("@Waist", Waist == "" ? "0" : Waist);
-        ObjDBManager.AddParameter("@BP", BP == "" ? "0" : BP);
+        ObjDBManager.AddParameter("@BPDiastolic", BPDiastolic == "" ? "0" : BPDiastolic);
+        ObjDBManager.AddParameter("@BPSystolic", BPSystolic == "" ? "0" : BPSystolic);
         ObjDBManager.AddParameter("@Pulse", Pulse == "" ? "0" : Pulse);
         ObjDBManager.AddParameter("@OralCavity", OralCavity);
         ObjDBManager.AddParameter("@Thyroid", Thyroid);
